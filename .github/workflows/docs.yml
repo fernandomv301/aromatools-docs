@@ -1,0 +1,32 @@
+name: deploy docs
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: descargar repo
+      uses: actions/checkout@v4
+
+    - name: instalar python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+
+    - name: instalar mkdocs
+      run: pip install mkdocs mkdocs-material
+
+    - name: construir pagina
+      run: mkdocs build
+
+    - name: publicar pagina
+      run: mkdocs gh-deploy --force
